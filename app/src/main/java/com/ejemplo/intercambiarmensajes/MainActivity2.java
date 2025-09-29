@@ -20,6 +20,7 @@ public class MainActivity2 extends AppCompatActivity {
         Log.d("Prueba", "MainActivity2 creado");
         Intent data = new Intent();
         String nombre = getIntent().getStringExtra("Nombre");
+        Toast.makeText(this, "Nombre: " + nombre, Toast.LENGTH_SHORT).show();
         data.putExtra("Mensaje", "Hola " + nombre);
         setResult(RESULT_OK, data);
         finish();

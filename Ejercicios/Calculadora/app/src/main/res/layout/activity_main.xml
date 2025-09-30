@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="4"
+    android:layout_gravity="bottom|center_horizontal"
+    android:rowCount="6"
+    android:padding="16dp">
+
+    <!-- Pantalla -->
+    <EditText
+        android:id="@+id/operacionActual"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_row="0"
+        android:layout_columnSpan="4"
+        android:layout_columnWeight="1"
+        android:background="@android:color/transparent"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:gravity="end"
+        android:hint="0"
+        android:inputType="numberDecimal"
+        android:textColor="#ff0000"
+        android:textSize="40sp" />
+    <EditText
+        android:id="@+id/resultado"
+        android:layout_width="0dp"
+        android:layout_height="104dp"
+        android:layout_row="0"
+        android:layout_columnSpan="4"
+        android:layout_columnWeight="1"
+        android:background="@android:color/transparent"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:gravity="end"
+        android:hint="0"
+        android:inputType="numberDecimal"
+        android:textColor="#ff0000"
+        android:textSize="80sp" />
+
+    <!-- Fila 1 -->
+    <Space android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1"/>
+    <Space android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1"/>
+    <Space android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1"/>
+    <Button android:id="@+id/botonDividir" android:text="/" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+
+    <!-- Fila 2 -->
+    <Button android:id="@+id/boton7" android:text="7" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/boton8" android:text="8" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/boton9" android:text="9" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/botonMultiplicar" android:text="*" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+
+    <!-- Fila 3 -->
+    <Button android:id="@+id/boton4" android:text="4" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/boton5" android:text="5" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/boton6" android:text="6" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/botonRestar" android:text="-" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+
+    <!-- Fila 4 -->
+    <Button android:id="@+id/boton1" android:text="1" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/boton2" android:text="2" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/boton3" android:text="3" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/botonSumar" android:text="+" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+
+    <!-- Fila 5 -->
+    <Button android:id="@+id/botonLimpiar" android:text="C" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/boton0" android:text="0" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/botonDecimal" android:text="," android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+    <Button android:id="@+id/botonIgual" android:text="=" android:layout_width="0dp" android:layout_height="80dp"
+        android:layout_columnWeight="1" android:layout_margin="8dp"
+        android:textColor="#FFFFFF" android:textSize="24sp" android:backgroundTint="#800080" />
+
+</GridLayout>

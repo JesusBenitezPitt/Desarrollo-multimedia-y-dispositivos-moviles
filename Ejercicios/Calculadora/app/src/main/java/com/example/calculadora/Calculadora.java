@@ -1,6 +1,7 @@
 package com.example.calculadora;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Calculadora extends AppCompatActivity {
 
-    protected TextView operacionActual, resultado;
+    protected TextView operacionActual;
+    protected static TextView resultado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,12 @@ public class Calculadora extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Button b = (Button) v;
-                operacionActual.append(b.getText().toString());
+                if(!resultado.getText().toString().isEmpty()){
+                    resultado.setText("");
+                    operacionActual.setText(b.getText().toString());
+                } else {
+                    operacionActual.append(b.getText().toString());
+                }
             }
         };
 
@@ -41,164 +48,110 @@ public class Calculadora extends AppCompatActivity {
         findViewById(R.id.boton8).setOnClickListener(Listener);
         findViewById(R.id.boton9).setOnClickListener(Listener);
 
-        findViewById(R.id.botonLimpiar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                operacionActual.setText("");
-                resultado.setText("");
+        findViewById(R.id.botonLimpiar).setOnClickListener((View v) -> {
+            operacionActual.setText("");
+            resultado.setText("");
+        });
+
+        findViewById(R.id.botonSumar).setOnClickListener(Listener("+"));
+        findViewById(R.id.botonRestar).setOnClickListener(Listener("-"));
+        findViewById(R.id.botonDividir).setOnClickListener(Listener("/"));
+        findViewById(R.id.botonMultiplicar).setOnClickListener(Listener("x"));
+
+
+        findViewById(R.id.botonIgual).setOnClickListener((View v) -> {
+            try {
+                String operacion = operacionActual.getText().toString();
+                String res = calcularOperacion(operacion);
+                resultado.setText(String.valueOf(res));
+            } catch (Exception e) {
+                Toast.makeText(Calculadora.this, "No se puede hacer la operacion", Toast.LENGTH_SHORT).show();
             }
         });
 
-        findViewById(R.id.botonSumar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String textoActual = operacionActual.getText().toString();
-                if(Character.isDigit(textoActual.charAt(textoActual.length() - 1))){
-                    if(!resultado.getText().toString().isEmpty()){
-                        operacionActual.setText(resultado.getText() + "+");
-                        resultado.setText("");
-                    } else {
-                        operacionActual.setText(operacionActual.getText() + "+");
-                    }
-                }
-            }
-        });
+        findViewById(R.id.botonDecimal).setOnClickListener((View v) -> {
+            String textoActual = operacionActual.getText().toString();
+            int ultimoOperadorIndex = Math.max(
+                    Math.max(textoActual.lastIndexOf("+"), textoActual.lastIndexOf("-")),
+                    Math.max(textoActual.lastIndexOf("*"), textoActual.lastIndexOf("/"))
+            );
 
-        findViewById(R.id.botonRestar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String textoActual = operacionActual.getText().toString();
-                if(Character.isDigit(textoActual.charAt(textoActual.length() - 1))){
-                    if(!resultado.getText().toString().isEmpty()){
-                        operacionActual.setText(resultado.getText() + "-");
-                        resultado.setText("");
-                    } else {
-                        operacionActual.setText(operacionActual.getText() + "-");
-                    }
-                }
-            }
-        });
+            String ultimoNumero = textoActual.substring(ultimoOperadorIndex + 1);
 
-        findViewById(R.id.botonDividir).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String textoActual = operacionActual.getText().toString();
-                if(Character.isDigit(textoActual.charAt(textoActual.length() - 1))){
-                    if(!resultado.getText().toString().isEmpty()){
-                        operacionActual.setText(resultado.getText() + "/");
-                        resultado.setText("");
-                    } else {
-                        operacionActual.setText(operacionActual.getText() + "/");
-                    }
-                }
-            }
-        });
-
-        findViewById(R.id.botonMultiplicar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String textoActual = operacionActual.getText().toString();
-                if(Character.isDigit(textoActual.charAt(textoActual.length() - 1))){
-                    if(!resultado.getText().toString().isEmpty()){
-                        operacionActual.setText(resultado.getText() + "x");
-                        resultado.setText("");
-                    } else {
-                        operacionActual.setText(operacionActual.getText() + "x");
-                    }
-                }
-            }
-        });
-
-
-        findViewById(R.id.botonIgual).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    String operacion = operacionActual.getText().toString();
-                    String res = calcularOperacion(operacion);
-                    resultado.setText(String.valueOf(res));
-                } catch (Exception e) {
-                    Toast.makeText(Calculadora.this, "No se puede hacer la operacion", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        findViewById(R.id.botonDecimal).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String textoActual = operacionActual.getText().toString();
-
-                // Evita que haya dos puntos seguidos en el mismo número
-                // Buscamos desde el último operador hasta el final
-                int ultimoOperadorIndex = Math.max(
-                        Math.max(textoActual.lastIndexOf("+"), textoActual.lastIndexOf("-")),
-                        Math.max(textoActual.lastIndexOf("*"), textoActual.lastIndexOf("/"))
-                );
-
-                String ultimoNumero = textoActual.substring(ultimoOperadorIndex + 1);
-
-                // Si el último número ya contiene un punto, no añadimos otro
-                if (!ultimoNumero.contains(".")) {
-                    operacionActual.append(".");
-                }
+            if (!ultimoNumero.contains(".") && resultado.getText().toString().isEmpty()) {
+                operacionActual.append(".");
             }
         });
     }
 
-    public static String calcularOperacion(String operacion) {
+    private View.OnClickListener Listener(String operador){
+        return (View v) -> {
+            String textoActual = operacionActual.getText().toString();
+            if(Character.isDigit(textoActual.charAt(textoActual.length() - 1))){
+                if(!resultado.getText().toString().isEmpty()){
+                    operacionActual.setText(resultado.getText() + operador);
+                    resultado.setText("");
+                } else {
+                    operacionActual.setText(operacionActual.getText() + operador);
+                }
+            }
+        };
+    };
+
+    private static String calcularOperacion(String operacion) {
         operacion = operacion.replace("x", "*");
-        double resultado = 0.0;
-        char operador = '+'; // operador anterior
-        String numero = "";
+        double resul = 0.0;
+        char operador = 0;
+        String num = "";
 
         for (int i = 0; i < operacion.length(); i++) {
-            char c = operacion.charAt(i);
+            char caracter = operacion.charAt(i);
 
-            if (Character.isDigit(c) || c == '.') {
-                numero += c;
+            if (Character.isDigit(caracter) || caracter == '.') {
+                num += caracter;
             } else {
-                // caso especial: número negativo
-                if (numero.isEmpty() && c == '-' && (i == 0 || "+-*/".indexOf(operacion.charAt(i-1)) != -1)) {
-                    numero += c; // añade el signo al número
+                if (num.isEmpty() && caracter == '-' && (i == 0 || "+-*/".indexOf(operacion.charAt(i-1)) != -1)) {
+                    num += caracter;
                     continue;
                 }
 
-                // convertir número y aplicar operador anterior
-                double n = Double.parseDouble(numero);
-                switch (operador) {
-                    case '+': resultado += n; break;
-                    case '-': resultado -= n; break;
-                    case '*': resultado *= n; break;
-                    case '/': resultado /= n; break;
-                }
-
-                operador = c;
-                numero = "";
+                resul = realizarOperacion(resul, operador, num);
+                operador = caracter;
+                num = "";
             }
         }
 
-        // último número
-        if (!numero.isEmpty()) {
-            double n = Double.parseDouble(numero);
-            switch (operador) {
-                case '+': resultado += n; break;
-                case '-': resultado -= n; break;
-                case '*': resultado *= n; break;
-                case '/': resultado /= n; break;
-            }
+        if (!num.isEmpty()) {
+            resul = realizarOperacion(resul, operador, num);
         }
 
-        // formateo del resultado
-        if (resultado == (int) resultado) {
-            return String.valueOf((int) resultado);
+        if (resul == (int) resul) {
+            return String.valueOf((int) resul);
         } else {
-            String resStr = String.valueOf(resultado);
+            String resStr = String.valueOf(resul);
             if (resStr.length() > 6) {
-                resStr = String.format("%.5f", resultado);
+                resStr = String.format("%.5f", resul);
                 while(resStr.endsWith("0")) resStr = resStr.substring(0, resStr.length()-1);
                 if(resStr.endsWith(".")) resStr = resStr.substring(0, resStr.length()-1);
             }
             return resStr;
         }
     }
+
+    private static double realizarOperacion(double acumulado, char op, String numero) {
+        double n = Double.parseDouble(numero);
+        if (op == 0) {
+            // primer número, se toma tal cual
+            return n;
+        } else {
+            switch (op) {
+                case '+': return acumulado + n;
+                case '-': return acumulado - n;
+                case '*': return acumulado * n;
+                case '/': return acumulado / n;
+                default:  return acumulado;
+            }
+        }
+    }
+
 }

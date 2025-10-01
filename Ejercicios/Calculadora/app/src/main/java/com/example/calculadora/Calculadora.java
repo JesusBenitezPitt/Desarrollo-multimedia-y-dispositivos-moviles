@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Calculadora extends AppCompatActivity {
 
     protected TextView operacionActual;
-    protected static TextView resultado;
+    protected TextView resultado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,16 +24,13 @@ public class Calculadora extends AppCompatActivity {
         operacionActual.setText("");
         resultado.setText("");
 
-        View.OnClickListener Listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Button b = (Button) v;
-                if(!resultado.getText().toString().isEmpty()){
-                    resultado.setText("");
-                    operacionActual.setText(b.getText().toString());
-                } else {
-                    operacionActual.append(b.getText().toString());
-                }
+        View.OnClickListener Listener = (View v) -> {
+            Button b = (Button) v;
+            if(!resultado.getText().toString().isEmpty()){
+                resultado.setText("");
+                operacionActual.setText(b.getText().toString());
+            } else {
+                operacionActual.append(b.getText().toString());
             }
         };
 
@@ -79,7 +76,7 @@ public class Calculadora extends AppCompatActivity {
             String ultimoNumero = textoActual.substring(ultimoOperadorIndex + 1);
 
             if (!ultimoNumero.contains(".") && resultado.getText().toString().isEmpty()) {
-                operacionActual.append(".");
+                operacionActual.setText(operacionActual.getText().toString() + ".");
             }
         });
     }
@@ -141,7 +138,6 @@ public class Calculadora extends AppCompatActivity {
     private static double realizarOperacion(double acumulado, char op, String numero) {
         double n = Double.parseDouble(numero);
         if (op == 0) {
-            // primer número, se toma tal cual
             return n;
         } else {
             switch (op) {
@@ -153,5 +149,4 @@ public class Calculadora extends AppCompatActivity {
             }
         }
     }
-
 }
